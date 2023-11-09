@@ -103,12 +103,3 @@ class Untwister:
                 self.equations.append(j+int(i))
         self.index+=1
         
-ut = Untwister(31)
-r = Random()
-
-for i in range(624):
-    ut.submit(bin(r.getrandbits(32))[2:].zfill(32))
-
-rr = ut.getRandom()
-print(rr.getrandbits(32))
-print(r.getrandbits(32))
