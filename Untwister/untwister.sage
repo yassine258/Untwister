@@ -65,14 +65,13 @@ class Untwister:
                 self.states.append(int(state_val_i))
         else:
             print("Building Matrix")
-            M=[[0]*(624*32) for i in range(len(self.equations))]
+            M=Matrix(GF(2), len(self.equations), 624*32)
             v=[0]*len(self.equations)
             for i,c in enumerate(self.equations):
                 v[i]+=c.constant_coefficient()
                 c=c-c.constant_coefficient()
                 for j in c.terms():
-                    M[i][self.var_map[j]]=1
-            M=matrix(GF(2),M)
+                    M[i, self.var_map[j]]=1
             v=vector(GF(2),v)
             print("Solving....")
             sol=list(M.solve_right(v))
@@ -104,4 +103,12 @@ class Untwister:
                 self.equations.append(j+int(i))
         self.index+=1
         
+ut = Untwister(31)
+r = Random()
 
+for i in range(624):
+    ut.submit(bin(r.getrandbits(32))[2:].zfill(32))
+
+rr = ut.getRandom()
+print(rr.getrandbits(32))
+print(r.getrandbits(32))
